@@ -1,26 +1,23 @@
-name: Run Puppeteer Script
+name: Node.js CI
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
-  puppeteer-job:
+  build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [18.x]  # Ensure Node.js v18+ is used
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
         with:
-          node-version: '16'  # Use the version of Node.js you're working with
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run Puppeteer script
-        run: node main.js
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+      - run: npm test
