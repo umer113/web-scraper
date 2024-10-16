@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer-core');
+const puppeteer = require('puppeteer');
 const xlsx = require('xlsx');
 const fs = require('fs');
 const path = require('path');
