@@ -4,8 +4,6 @@ const fs = require('fs');
 const path = require('path');
 const { TIMEOUT } = require('dns');
 
-// Replace with the path to your Edge browser
-const edgePath = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
 
 // List of base URLs
 const baseURLs = [
@@ -42,10 +40,15 @@ const cookies = [
 
 (async () => {
   const browser = await puppeteer.launch({
-    headless: false,
-    executablePath: edgePath,
-  });
-
+        headless: 'new', 
+        args: [
+            "--no-sandbox",
+            "--disable-setuid-sandbox",
+            "--disable-blink-features=AutomationControlled",
+            "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36",
+        ],
+        defaultViewport: null,
+    });
   const page = await browser.newPage();
 
   // Set cookies
