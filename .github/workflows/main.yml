@@ -1,34 +1,26 @@
-name: Puppeteer Scraper
+name: Run Puppeteer Script
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
-  run-scraper:
+  puppeteer-job:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # Use the version of Node.js you're working with
 
-    - name: List files in the directory
-      run: ls -al
+      - name: Install dependencies
+        run: npm install
 
-    - name: Install dependencies
-      run: |
-        npm install
-
-    - name: Run Puppeteer scraper
-      run: |
-        node main.js  # Ensure this file exists in the root of your repo
-
-    - name: Upload Excel output
-      uses: actions/upload-artifact@v3
-      with:
-        name: scraper-output
-        path: 'output/*.xlsx'  # Changed path to reflect 'output' directory where the Excel file is saved
+      - name: Run Puppeteer script
+        run: node main.js
